@@ -1,177 +1,165 @@
 import React,{Component} from 'react';
-import {View,StyleSheet,ScrollView} from 'react-native';
-import TextFieldWidget from '../../form/TextFieldWidget';
-import CheckboxWidget from '../../form/CheckboxWidget';
-import OptionFieldWidget from '../../form/OptionFieldWidget';
-import DateFieldWidget from '../../form/DateFieldWidget';
-import TimeFieldWidget from '../../form/TimeFieldWidget';
-import SliderWidget from '../../form/SliderWidget';
-import SelectFieldWidget from '../../form/SelectFieldWidget';
+import AnimatedFormView from 'react-native-multistep-forms'
+import {View,StyleSheet} from 'react-native';
 import {
-    Title,
-    HelperText,
-    TextInput,
-    Button,
-    withTheme,
-    Text
+  withTheme
 } from 'react-native-paper';
 
+import RenderForm from '../RenderForm';
+import {setPageNumber} from '../../redux/ActionCreators/CurrentPage';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    CurrentPage: state.CurrentPage,
+  };
+};
+
+
+const mapDispatchToProps = (dispatch) => ({
+  setPageNumber: (page) => { dispatch(setPageNumber(page)) },
+});
 const Form = 
    [
        {
         'id': 1,
-        'question': 'What is your age?',
+        'question': 'question 1?',
         'type': 'text',
         'min_character': 3,
         'max_character': 5,
        },
        {
         'id': 2,
-        'question': 'Your Gender?',
-        'type': 'option',
-        'options': ['Male','Female']
-        },
-        {
-            'id': 3,
-            'question': 'Agree On Our Terms & Conditions',
-            'type': 'checkbox',
-        },
-        {
-            'id': 4,
-            'question': 'Choose Your Birthdate',
-            'type': 'date',
-        },
-        {
-            'id': 5,
-            'question': 'Choose Your Birthtime',
-            'type': 'time',
-        },
-        {
-            'id': 6,
-            'question': 'Rate Your Skill in React',
-            'type': 'slider',
-            'min': 1,
-            'max': 10,
-            'step': 1
-        },
-        {
-            'id': 7,
-            'question': 'Your Annual Income is',
-            'type': 'range',
-            'min': 100000,
-            'max': 500000,
-            'step': 10000
-        },
-        {
-            'id': 7,
-            'question': 'Select Your Skill',
-            'type': 'select',
-            'multiple': true,
-            'options':['HTML','JS','CSS']
-        }
-   ]
+        'question': 'question 2?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 3,
+        'question': 'question 3?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 4,
+        'question': 'question 4?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 5,
+        'question': 'question 5?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 6,
+        'question': 'question 6?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 7,
+        'question': 'question 7?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 8,
+        'question': 'question 8?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
+       {
+        'id': 9,
+        'question': 'question 9?',
+        'type': 'text',
+        'min_character': 3,
+        'max_character': 5,
+       },
 
-   const HandleQuestions = (props) =>{
-       const {question} = props;
-       if(question.type == 'text')
-        return(HandleTextQuestion(question));
-       if(question.type == 'option')
-        return(HandleOptionQuestion(question));
-        if(question.type == 'checkbox')
-        return(HandleCheckboxQuestion(question));
-        if(question.type == 'date')
-        return(HandleDateQuestion(question));
-        if(question.type == 'time')
-        return(HandleTimeQuestion(question));
-        if(question.type == 'slider' || question.type == 'range' )
-        return(HandleSliderQuestion(question));
-        if(question.type == 'select')
-        return(HandleSelectQuestion(question));
-        
-   }
-   const HandleTextQuestion = (question) => {
-        return(
-             <TextFieldWidget question={question} />
-        )
-   }
-   const HandleOptionQuestion = (question) => {
-       return(
-           <OptionFieldWidget question={question} />
-       )
-   }
+];
 
-   const HandleCheckboxQuestion = (question) =>{
-       return(
-           <CheckboxWidget question={question} />
-       )
-   }
 
-   const HandleDateQuestion = (question) =>{
-       return(
-           <DateFieldWidget question={question} />
-       )
-   }
 
-   const HandleTimeQuestion = (question) => {
-       return(
-           <TimeFieldWidget question={question} />
-       )
-   }
 
-   const HandleSliderQuestion = (question) =>{
-       return(
-           <SliderWidget question={question} />
-       )
-   }
+/* Define your class */
+ class Home extends Component {
 
-   const HandleSelectQuestion = (question) =>{
-       return(
-           <SelectFieldWidget question={question} />
-       )
-   }
-class Home extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            
-        }
+/* define the method to be called when you go on next step */
+
+  onNext = () => {
+    console.log("Next");
+  };
+
+  /* define the method to be called when you go on back step */
+
+  onBack = () => {
+    console.log("Back");
+  };
+
+/* define the method to be called when the wizard is finished */
+
+  finish = finalState => {
+    console.log(finalState);
+  };
+  componentDidMount(){
+    this.props.setPageNumber(Form.length/3);
+  }
+
+/* render MultiStep */
+  render() {
+    const AllInOneStep = [];
+    var TotalPage = Form.length/3;
+    
+    for(var i =1;i<=TotalPage;i++){
+        AllInOneStep.push(
+            { name: `step ${i}`, component: (props)=>
+                    <RenderForm form={Form}  totalpage={TotalPage} back={props.back} next={props.next} saveState={props.saveState} getState={props.getState}/>
+            }   
+        );
     }
-    render(){
-        return(
-            <ScrollView style={styles.container}>
-                 <Title style={
-                    {
-                        color: this.props.theme.colors.primary,
-                        textAlign: 'center'
-                    }
-                }>
-                    Form
-                </Title>
-                {
-                    Form.map((question)=>{
-                        return(
-                            <HandleQuestions question={question} key={question.id} />
-                        )
-                    })
-                }
-                 <Button
-                   mode="contained"
-                   compact
-                   dark
-                   >
-                    SUBMIT
-                 </Button>
-            </ScrollView>
-        )
-    }
-
+    return (
+      <View style={styles.container}>
+        <AnimatedFormView
+          steps={AllInOneStep}
+          onFinish={this.finish}
+          onBack={this.onBack}
+          onNext={this.onNext}
+          comeInOnNext=''
+          OutOnNext=''
+          comeInOnBack=''
+          OutOnBack=''
+        />
+      </View>
+    );
+}
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
         backgroundColor: '#f0f0f0',
-        marginHorizontal: 5,
-        marginVertical: 40,
+        marginHorizontal: 40,
+        marginVertical: 40
     },
+    formfield:{
+        marginHorizontal: 10,
+        marginVertical: 10
+    },
+    loading:{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        zIndex: 99999,
+    }
 })
-export default withTheme(Home);
+
+export default withTheme(connect(mapStateToProps, mapDispatchToProps)(Home));

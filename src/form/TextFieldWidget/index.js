@@ -23,12 +23,30 @@ const mapDispatchToProps = (dispatch) => ({
 class TextFieldWidget extends Component{
     constructor(props){
         super(props);
-        this.state= {
-            answer: '',
-            touched: {
-              answer: false,
-          }
+       let answerExist = false;
+        if(this.props.Answers.answers.length)
+        {
+            this.props.Answers.answers.map((oldanswer) => {
+                if(oldanswer.question.id == this.props.question.id ){
+                    answerExist = true
+                     this.state= {
+                        answer: oldanswer.answer,
+                        touched: {
+                        answer: false,
+                    }
+                }
+                }
+            })
         }
+        if(!answerExist){
+            this.state= {
+                answer:'',
+                touched: {
+                answer: false,
+                }
+            }
+        }
+       
         this.handleBlur = this.handleBlur.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.validate = this.validate.bind(this);
